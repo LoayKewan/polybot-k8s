@@ -1,14 +1,16 @@
 import flask
 from flask import request
 import os
-from bot import ObjectDetectionBot
-from bot import Bot
 import json
 import boto3
+from bot import ObjectDetectionBot, Bot
 from botocore.exceptions import ClientError
 from loguru import logger
-from decimal import Decimal
+import ssl
 
+# Load SSL Certificates
+context = ssl.SSLContext(ssl.PROTOCOL_TLS)
+context.load_cert_chain(certfile='/usr/src/app/tls.crt', keyfile='/usr/src/app/tls.key')
 
 def get_secret():
     secret_name = "loaytokensecret-for-amz-prolect"
@@ -22,7 +24,6 @@ def get_secret():
     )
 
     try:
-
         get_secret_value_response = client.get_secret_value(
             SecretId=secret_name
         )
@@ -35,28 +36,27 @@ def get_secret():
             token_value = secret_dict.get('token')  # Get the value corresponding to the 'token' key
 
             # Print the extracted token value
-            return (token_value)
-
+            return token_value
 
 app = flask.Flask(__name__)
 
-# TODO load TELEGRAM_TOKEN value from Secret Manager
+# Load TELEGRAM_TOKEN value from Secret Manager
 TELEGRAM_TOKEN = get_secret()
+logger.info(f"TELEGRAM_TOKEN IS : {TELEGRAM_TOKEN}")
 
-TELEGRAM_APP_URL = os.environ['TELEGRAM_APP_URL']
-
+TELEGRAM_APP_URL = os.getenv('TELEGRAM_APP_URL')  # Use os.getenv for environment variable access
+logger.info(f"TELEGRAM_APP_URL IS : {TELEGRAM_APP_URL}")
 
 @app.route('/', methods=['GET'])
 def index():
     return 'Ok'
 
-
 @app.route(f'/{TELEGRAM_TOKEN}/', methods=['POST'])
 def webhook():
     req = request.get_json()
+    logger.info(f"Received webhook data: {req}")
     bot.handle_message(req['message'])
     return 'Ok'
-
 
 @app.route('/results', methods=['POST'])
 def results():
@@ -75,7 +75,6 @@ def results():
 
             my_chat_id = str(results['chat_id'])
             logger.info(f"your chat id: {my_chat_id}")
-            logger.info("my_chat_id retrieved successfully ******loay************")
 
             if not results.get('labels'):
                 message = "No prediction: empty labels"
@@ -106,15 +105,15 @@ def results():
 
     return "Error: The provided key element does not match the schema"
 
-
-@app.route(f'/loadTest/', methods=['POST'])
+@app.route('/loadTest/', methods=['POST'])
 def load_test():
     req = request.get_json()
     bot.handle_message(req['message'])
     return 'Ok'
 
-
 if __name__ == "__main__":
     bot = ObjectDetectionBot(TELEGRAM_TOKEN, TELEGRAM_APP_URL)
 
-    app.run(host='0.0.0.0', port=8443)
+    # Start Flask application with SSL context
+    app.run(host='0.0.0.0', port=8443 )
+
