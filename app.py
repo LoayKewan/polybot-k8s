@@ -12,8 +12,8 @@ import ssl
 context = ssl.SSLContext(ssl.PROTOCOL_TLS)
 context.load_cert_chain(certfile='/usr/src/app/tls.crt', keyfile='/usr/src/app/tls.key')
 
+secret_name = "loaytokensecret-for-amz-prolect"
 def get_secret():
-    secret_name = "loaytokensecret-for-amz-prolect"
     region_name = "eu-west-1"
 
     # Create a Secrets Manager client
