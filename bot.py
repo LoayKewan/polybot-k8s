@@ -9,9 +9,11 @@ from img_proc import Img
 import boto3
 
 
+region_of_sqs = os.environ['region_of_sqs']
 queue_name = 'loay-PolybotServiceQueue-tf'
-sqs_client = boto3.client('sqs', region_name='eu-west-3')
+sqs_client = boto3.client('sqs', region_name=region_of_sqs)
 images_bucket = os.environ['BUCKET_NAME']
+my_cert = os.environ['my_cert']
 
 class Bot:
     def __init__(self, token, telegram_chat_url):
@@ -21,7 +23,10 @@ class Bot:
 
         try:
             # Open certificate file only when needed and set webhook
-            with open("/usr/src/app/tls.crt", 'r') as cert:
+
+            path = f"/usr/src/app/tls.{my_cert}"
+
+            with open(path, 'r') as cert:
                 self.telegram_bot_client.set_webhook(url=f'{telegram_chat_url}/{token}/', certificate=cert ,timeout=60)
 
             # Log successful webhook setup

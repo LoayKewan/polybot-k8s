@@ -12,7 +12,10 @@ import ssl
 context = ssl.SSLContext(ssl.PROTOCOL_TLS)
 context.load_cert_chain(certfile='/usr/src/app/tls.crt', keyfile='/usr/src/app/tls.key')
 
-secret_name = "loaytokensecret-for-amz-prolect"
+secret_name = os.environ['secret_name']
+TELEGRAM_APP_URL = os.environ['TELEGRAM_APP_URL']
+
+
 def get_secret():
     region_name = "eu-west-1"
 
@@ -38,6 +41,7 @@ def get_secret():
             # Print the extracted token value
             return token_value
 
+
 app = flask.Flask(__name__)
 
 # Load TELEGRAM_TOKEN value from Secret Manager
@@ -47,9 +51,11 @@ logger.info(f"TELEGRAM_TOKEN IS : {TELEGRAM_TOKEN}")
 TELEGRAM_APP_URL = os.getenv('TELEGRAM_APP_URL')  # Use os.getenv for environment variable access
 logger.info(f"TELEGRAM_APP_URL IS : {TELEGRAM_APP_URL}")
 
+
 @app.route('/', methods=['GET'])
 def index():
     return 'Ok'
+
 
 @app.route(f'/{TELEGRAM_TOKEN}/', methods=['POST'])
 def webhook():
@@ -57,6 +63,7 @@ def webhook():
     logger.info(f"Received webhook data: {req}")
     bot.handle_message(req['message'])
     return 'Ok'
+
 
 @app.route('/results', methods=['POST'])
 def results():
@@ -105,15 +112,16 @@ def results():
 
     return "Error: The provided key element does not match the schema"
 
+
 @app.route('/loadTest/', methods=['POST'])
 def load_test():
     req = request.get_json()
     bot.handle_message(req['message'])
     return 'Ok'
 
+
 if __name__ == "__main__":
     bot = ObjectDetectionBot(TELEGRAM_TOKEN, TELEGRAM_APP_URL)
 
     # Start Flask application with SSL context
-    app.run(host='0.0.0.0', port=8443 )
-
+    app.run(host='0.0.0.0', port=8443)
