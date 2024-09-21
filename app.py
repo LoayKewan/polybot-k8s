@@ -16,6 +16,7 @@ secret_name = os.environ['secret_name']
 TELEGRAM_APP_URL = os.environ['TELEGRAM_APP_URL']
 
 
+
 def get_secret():
     region_name = "eu-west-1"
 
