@@ -65,6 +65,7 @@ def webhook():
     bot.handle_message(req['message'])
     return 'Ok'
 
+
 @app.route('/results', methods=['POST'])
 def results():
     prediction_id = request.args.get('predictionId')
