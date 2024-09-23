@@ -13,7 +13,7 @@ region_of_sqs = os.environ['region_of_sqs']
 queue_name = 'loay-PolybotServiceQueue-tf'
 sqs_client = boto3.client('sqs', region_name=region_of_sqs)
 images_bucket = os.environ['BUCKET_NAME']
-my_cert = os.environ['my_cert']
+#my_cert = os.environ['my_cert']
 
 class Bot:
     def __init__(self, token, telegram_chat_url):
