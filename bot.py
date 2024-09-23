@@ -33,9 +33,8 @@ class Bot:
                     key_file_path = '/usr/src/app/tls/key'  # Path to the key in the mounted volume
 
                     # Load the certificate and the key to set the webhook
-                    with open(cert_file_path, 'rb') as cert, open(key_file_path, 'rb') as key:
-                        self.telegram_bot_client.set_webhook(url=f'{telegram_chat_url}/{token}/', certificate=cert,
-                                                             timeout=60)
+                    with open(cert_file_path, 'r') as cert, open(key_file_path, 'r') as key:
+                        self.telegram_bot_client.set_webhook(url=f'{telegram_chat_url}/{token}/', certificate=cert,timeout=60)
 
                     # Log successful webhook setup
                     logger.info(f'Setting webhook to: {f"{telegram_chat_url}/{token}/"}')
