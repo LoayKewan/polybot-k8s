@@ -28,9 +28,9 @@ class Bot:
                 time.sleep(0.5)  # Optional sleep, but can be reduced or removed
 
                 try:
-                    # Open certificate files only when needed and set webhook
-                    cert_file_path = '/usr/src/app/tls.crt'  # Path to the certificate in the container
-                    key_file_path = '/usr/src/app/tls.key'  # Path to the key in the container
+                    # Open certificate files using the new mounted paths
+                    cert_file_path = '/usr/src/app/tls/cert'  # Path to the certificate in the mounted volume
+                    key_file_path = '/usr/src/app/tls/key'  # Path to the key in the mounted volume
 
                     # Load the certificate and the key to set the webhook
                     with open(cert_file_path, 'rb') as cert, open(key_file_path, 'rb') as key:
