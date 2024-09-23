@@ -9,8 +9,8 @@ from loguru import logger
 import ssl
 
 # Load SSL Certificates
-context = ssl.SSLContext(ssl.PROTOCOL_TLS)
-context.load_cert_chain(certfile='/usr/src/app/tls.crt', keyfile='/usr/src/app/tls.key')
+#context = ssl.SSLContext(ssl.PROTOCOL_TLS)
+#context.load_cert_chain(certfile='/usr/src/app/tls.crt', keyfile='/usr/src/app/tls.key')
 
 secret_name = os.environ['secret_name']
 TELEGRAM_APP_URL = os.environ['TELEGRAM_APP_URL']
