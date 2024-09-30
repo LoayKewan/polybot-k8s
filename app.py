@@ -109,6 +109,7 @@ def results():
 
             return results
         else:
+
             logger.info("No results found for the given prediction_id")
     except Exception as e:
         logger.error(f"Error retrieving results from DynamoDB: {str(e)}")
