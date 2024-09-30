@@ -152,14 +152,11 @@ class ObjectDetectionBot(Bot):
                     self.send_text(msg['chat']['id'], "Your image is being processed. Please wait...")
                     return jsonify(status=200, job_id=response['MessageId'])
 
-
-
                 else:
                     self.send_text(msg['chat']['id'], "error, Need to choose a valid caption")
             except Exception as e:
                 logger.info(f"Error {e}")
                 self.send_text(msg['chat']['id'], "failed - try again later")
-
 
 
         elif "text" in msg and msg["text"] == "hi":
