@@ -10,7 +10,6 @@ import boto3
 
 
 
-
 region_of_sqs = os.environ['region_of_sqs']
 queue_name = 'loay-PolybotServiceQueue-tf'
 sqs_client = boto3.client('sqs', region_name=region_of_sqs)
