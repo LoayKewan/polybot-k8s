@@ -159,7 +159,7 @@ class ObjectDetectionBot(Bot):
                 self.send_text(msg['chat']['id'], "failed - try again later")
 
         elif "text" in msg and msg["text"] == "hi":
-            self.send_text(msg['chat']['id'],f"Hi: {msg['chat']['first_name']} {msg['chat']['last_name']}, how can I help you .....****?")
+            self.send_text(msg['chat']['id'],f"Hi: {msg['chat']['first_name']} {msg['chat']['last_name']}, how can I help you .....****-----?")
 
 
         elif "text" in msg and msg["text"] != "hi":
