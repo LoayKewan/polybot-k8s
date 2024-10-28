@@ -10,7 +10,6 @@ import boto3
 
 
 
-
 region_of_sqs = os.environ['region_of_sqs']
 queue_name = 'loay-PolybotServiceQueue-tf'
 sqs_client = boto3.client('sqs', region_name=region_of_sqs)
@@ -160,7 +159,7 @@ class ObjectDetectionBot(Bot):
                 self.send_text(msg['chat']['id'], "failed - try again later")
 
         elif "text" in msg and msg["text"] == "hi":
-            self.send_text(msg['chat']['id'],f"Hi: {msg['chat']['first_name']} {msg['chat']['last_name']}, how can I help you .....?")
+            self.send_text(msg['chat']['id'],f"Hi: {msg['chat']['first_name']} {msg['chat']['last_name']}, how can I help you .....****?")
 
 
         elif "text" in msg and msg["text"] != "hi":
